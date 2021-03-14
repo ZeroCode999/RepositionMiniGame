@@ -14,6 +14,7 @@
 		CE70B60025FB7A8C00072A27 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CE70B5FF25FB7A8C00072A27 /* Assets.xcassets */; };
 		CE70B60325FB7A8C00072A27 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CE70B60125FB7A8C00072A27 /* LaunchScreen.storyboard */; };
 		CE70B60C25FBA07E00072A27 /* GameFieldView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE70B60B25FBA07E00072A27 /* GameFieldView.swift */; };
+		CED0C85125FCF84900031C98 /* GameControlView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CED0C85025FCF84900031C98 /* GameControlView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -26,6 +27,7 @@
 		CE70B60225FB7A8C00072A27 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		CE70B60425FB7A8C00072A27 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		CE70B60B25FBA07E00072A27 /* GameFieldView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameFieldView.swift; sourceTree = "<group>"; };
+		CED0C85025FCF84900031C98 /* GameControlView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameControlView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -66,6 +68,7 @@
 				CE70B60125FB7A8C00072A27 /* LaunchScreen.storyboard */,
 				CE70B60425FB7A8C00072A27 /* Info.plist */,
 				CE70B60B25FBA07E00072A27 /* GameFieldView.swift */,
+				CED0C85025FCF84900031C98 /* GameControlView.swift */,
 			);
 			path = RepositionMiniGame;
 			sourceTree = "<group>";
@@ -80,6 +83,7 @@
 				CE70B5EF25FB7A8B00072A27 /* Sources */,
 				CE70B5F025FB7A8B00072A27 /* Frameworks */,
 				CE70B5F125FB7A8B00072A27 /* Resources */,
+				CE29F2E425FE817A0058E477 /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -135,6 +139,26 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		CE29F2E425FE817A0058E477 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "if which swiftlint >/dev/null; then\n  swiftlint\nelse\n  echo \"warning: SwiftLint not installed, download from https://github.com/realm/SwiftLint\"\nfi\n";
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		CE70B5EF25FB7A8B00072A27 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
@@ -143,6 +167,7 @@
 				CE70B5FB25FB7A8B00072A27 /* ViewController.swift in Sources */,
 				CE70B5F725FB7A8B00072A27 /* AppDelegate.swift in Sources */,
 				CE70B5F925FB7A8B00072A27 /* SceneDelegate.swift in Sources */,
+				CED0C85125FCF84900031C98 /* GameControlView.swift in Sources */,
 				CE70B60C25FBA07E00072A27 /* GameFieldView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -292,6 +317,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				INFOPLIST_FILE = RepositionMiniGame/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -310,6 +336,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				INFOPLIST_FILE = RepositionMiniGame/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

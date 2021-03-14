@@ -7,18 +7,33 @@
 
 import UIKit
 
-class ViewController: UIViewController {
-    @IBOutlet weak var gameFieldView: GameFieldView!
-    @IBAction func stepperChanged(_ sender: UIStepper) {
-        updateUI()
-    }
-    @IBOutlet weak var timeLabel: UILabel!
-    @IBOutlet weak var stepper: UIStepper!
-    @IBOutlet weak var actionButton: UIButton!
-    @IBOutlet weak var scoreLabel: UILabel!
+final class ViewController: UIViewController {
+    private var score = 0
+    private var defaultStepperValue = 30.0
+    private var gameTimer: Timer?
+    private var timer: Timer?
+    private let displayDuration: TimeInterval = 1
     
-    @IBAction func actionButtonTapped(_ sender: UIButton) {
-        if isGameActive {
+    @IBOutlet weak private var gameFieldView: GameFieldView!
+    @IBOutlet weak private var scoreLabel: UILabel!
+    @IBOutlet weak private var gameControl: GameControlView!
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+
+        gameFieldView.layerAdditionalSetups()
+        updateUI()
+        gameFieldView.shapeHitHandler = { [weak self] in
+            self?.objectTapped()
+        }
+        gameControl.startStopHandler = { [weak self] in
+            self?.actionButtonTapped()
+        }
+        gameControl.gameDuration = defaultStepperValue
+    }
+    
+    func actionButtonTapped() {
+        if gameControl.isGameActive {
             stopGame()
         } else {
             startGame()
@@ -26,19 +41,12 @@ class ViewController: UIViewController {
     }
     
     func objectTapped() {
-        guard isGameActive else {
+        guard gameControl.isGameActive else {
             return
         }
         repositionImageWithTimer()
         score += 1
     }
-    
-    private var score = 0
-    private var isGameActive = false
-    private var gameTimeLeft: TimeInterval = 0
-    private var gameTimer: Timer?
-    private var timer: Timer?
-    private let displayDuration: TimeInterval = 1
     
     private func startGame() {
         score = 0
@@ -51,19 +59,19 @@ class ViewController: UIViewController {
             userInfo: nil,
             repeats: true
         )
-        gameTimeLeft = stepper.value
-        isGameActive = true
+        gameControl.gameTimeLeft = gameControl.gameDuration
+        gameControl.setGameStatus(true)
         updateUI()
     }
     private func stopGame() {
-        isGameActive = false
+        gameControl.setGameStatus(false)
         updateUI()
         gameTimer?.invalidate()
         timer?.invalidate()
         scoreLabel.text = "Last score: \(score)"
     }
     
-    private func repositionImageWithTimer(){
+    private func repositionImageWithTimer() {
         timer?.invalidate()
         timer = Timer.scheduledTimer(
             timeInterval: displayDuration,
@@ -75,20 +83,12 @@ class ViewController: UIViewController {
     }
     
     private func updateUI() {
-        gameFieldView.isShapeHidden = !isGameActive
-        stepper.isEnabled = !isGameActive
-        if isGameActive {
-            timeLabel.text = "Time left: \(Int(gameTimeLeft)) sec"
-            actionButton.setTitle("Stop", for: .normal)
-        } else {
-            timeLabel.text = "Time: \(Int(stepper.value)) sec"
-            actionButton.setTitle("Start", for: .normal)
-        }
+        gameFieldView.isShapeHidden = !gameControl.isGameActive
     }
     
     @objc private func gameTimerTick() {
-        gameTimeLeft -= 1
-        if gameTimeLeft <= 0 {
+        gameControl.gameTimeLeft -= 1
+        if gameControl.gameTimeLeft <= 0 {
             stopGame()
         } else {
            updateUI()
@@ -97,17 +97,5 @@ class ViewController: UIViewController {
     
     @objc private func moveImage() {
         gameFieldView.randomizeShapes()
-    }
-    
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        // Do any additional setup after loading the view.
-        gameFieldView.layer.borderWidth = 1
-        gameFieldView.layer.backgroundColor = UIColor.gray.cgColor
-        gameFieldView.layer.cornerRadius = 5
-        updateUI()
-        gameFieldView.shapeHitHandler = { [weak self] in
-                    self?.objectTapped()
-                }
     }
 }

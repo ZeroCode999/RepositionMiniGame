@@ -8,7 +8,10 @@
 import UIKit
 
 @IBDesignable
-class GameFieldView: UIView {
+final class GameFieldView: UIView {
+    private var curPath: UIBezierPath?
+    var shapeHitHandler: (() -> Void)?
+    
     @IBInspectable var shapeColor: UIColor = .red {
         didSet {
             setNeedsDisplay()
@@ -29,8 +32,6 @@ class GameFieldView: UIView {
             setNeedsDisplay()
         }
     }
-    
-    var shapeHitHandler: (() -> Void)?
     
     override func draw(_ rect: CGRect) {
         super.draw(rect)
@@ -62,13 +63,19 @@ class GameFieldView: UIView {
     func randomizeShapes() {
         let maxX = bounds.maxX - shapeSize.width
         let maxY = bounds.maxY - shapeSize.height
-        let x = CGFloat(arc4random_uniform(UInt32(maxX)))
-        let y = CGFloat(arc4random_uniform(UInt32(maxY)))
-        shapePosition = CGPoint(x: x, y: y)
+        let xCord = CGFloat(arc4random_uniform(UInt32(maxX)))
+        let yCord = CGFloat(arc4random_uniform(UInt32(maxY)))
+        shapePosition = CGPoint(x: xCord, y: yCord)
+    }
+    
+    // Do any additional setup after loading the view
+    func layerAdditionalSetups() {
+        layer.borderWidth = 1
+        layer.backgroundColor = UIColor.gray.cgColor
+        layer.cornerRadius = 5
     }
     
     // Drawing a triangle
-    private var curPath: UIBezierPath?
     private func getTrianglePath(in rect: CGRect) -> UIBezierPath {
         let path = UIBezierPath()
         path.lineWidth = 0
