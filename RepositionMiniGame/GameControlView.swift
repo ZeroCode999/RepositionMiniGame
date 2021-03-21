@@ -38,10 +38,11 @@ final class GameControlView: UIView {
         }
     }
     
-    @objc func stepperChanged() {
+    @objc private func stepperChanged() {
         updateUI()
     }
-    @objc func actionButtonTapped() {
+    
+    @objc private func actionButtonTapped() {
         startStopHandler?()
     }
     
@@ -74,7 +75,7 @@ final class GameControlView: UIView {
         
         let timeLabelSize = timeLabel.intrinsicContentSize
         timeLabel.frame = CGRect(origin: CGPoint(x: bounds.minX,
-                             y: bounds.minY + (stepperSize.height - timeLabelSize.height) / 2), size: timeLabelSize)
+                                                 y: bounds.minY + (stepperSize.height - timeLabelSize.height) / 2), size: timeLabelSize)
         
         let buttonSize = actionButton.intrinsicContentSize
         actionButton.frame = CGRect(origin: CGPoint(x: bounds.minX + (bounds.width - buttonSize.width) / 2,
@@ -99,8 +100,8 @@ final class GameControlView: UIView {
         actionButton.setTitleColor(actionButton.tintColor, for: .normal)
     }
     
-    func setGameStatus(_ status: Bool) {
-        isGameActive = status
+    func setGameStatus(_ isActive: Bool) {
+        isGameActive = isActive
     }
     
     private func updateUI() {

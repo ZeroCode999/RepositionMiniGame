@@ -12,6 +12,12 @@ final class GameFieldView: UIView {
     private var curPath: UIBezierPath?
     var shapeHitHandler: (() -> Void)?
     
+    private enum DrawingSetups: CGFloat {
+        case lineWidth = 0
+        case borderWidth = 1
+        case cornerRadius = 5
+    }
+    
     @IBInspectable var shapeColor: UIColor = .red {
         didSet {
             setNeedsDisplay()
@@ -70,15 +76,15 @@ final class GameFieldView: UIView {
     
     // Do any additional setup after loading the view
     func layerAdditionalSetups() {
-        layer.borderWidth = 1
+        layer.borderWidth = DrawingSetups.borderWidth.rawValue
         layer.backgroundColor = UIColor.gray.cgColor
-        layer.cornerRadius = 5
+        layer.cornerRadius = DrawingSetups.cornerRadius.rawValue
     }
     
     // Drawing a triangle
     private func getTrianglePath(in rect: CGRect) -> UIBezierPath {
         let path = UIBezierPath()
-        path.lineWidth = 0
+        path.lineWidth = DrawingSetups.lineWidth.rawValue
         path.move(to: CGPoint(x: rect.minX, y: rect.maxY))
         path.addLine(to: CGPoint(x: rect.midX, y: rect.minY))
         path.addLine(to: CGPoint(x: rect.maxX, y: rect.maxY))

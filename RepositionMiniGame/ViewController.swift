@@ -9,7 +9,7 @@ import UIKit
 
 final class ViewController: UIViewController {
     private var score = 0
-    private var defaultStepperValue = 30.0
+    private let defaultStepperValue = 30.0
     private var gameTimer: Timer?
     private var timer: Timer?
     private let displayDuration: TimeInterval = 1
@@ -33,11 +33,7 @@ final class ViewController: UIViewController {
     }
     
     func actionButtonTapped() {
-        if gameControl.isGameActive {
-            stopGame()
-        } else {
-            startGame()
-        }
+        gameControl.isGameActive ? stopGame() : startGame()
     }
     
     func objectTapped() {
@@ -63,6 +59,7 @@ final class ViewController: UIViewController {
         gameControl.setGameStatus(true)
         updateUI()
     }
+    
     private func stopGame() {
         gameControl.setGameStatus(false)
         updateUI()
