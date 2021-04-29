@@ -8,7 +8,16 @@
 import UIKit
 
 @IBDesignable
-class GameFieldView: UIView {
+final class GameFieldView: UIView {
+    private var curPath: UIBezierPath?
+    var shapeHitHandler: (() -> Void)?
+    
+    private enum DrawingSetups: CGFloat {
+        case lineWidth = 0
+        case borderWidth = 1
+        case cornerRadius = 5
+    }
+    
     @IBInspectable var shapeColor: UIColor = .red {
         didSet {
             setNeedsDisplay()
@@ -29,8 +38,6 @@ class GameFieldView: UIView {
             setNeedsDisplay()
         }
     }
-    
-    var shapeHitHandler: (() -> Void)?
     
     override func draw(_ rect: CGRect) {
         super.draw(rect)
@@ -62,16 +69,22 @@ class GameFieldView: UIView {
     func randomizeShapes() {
         let maxX = bounds.maxX - shapeSize.width
         let maxY = bounds.maxY - shapeSize.height
-        let x = CGFloat(arc4random_uniform(UInt32(maxX)))
-        let y = CGFloat(arc4random_uniform(UInt32(maxY)))
-        shapePosition = CGPoint(x: x, y: y)
+        let xCord = CGFloat(arc4random_uniform(UInt32(maxX)))
+        let yCord = CGFloat(arc4random_uniform(UInt32(maxY)))
+        shapePosition = CGPoint(x: xCord, y: yCord)
+    }
+    
+    // Do any additional setup after loading the view
+    func layerAdditionalSetups() {
+        layer.borderWidth = DrawingSetups.borderWidth.rawValue
+        layer.backgroundColor = UIColor.gray.cgColor
+        layer.cornerRadius = DrawingSetups.cornerRadius.rawValue
     }
     
     // Drawing a triangle
-    private var curPath: UIBezierPath?
     private func getTrianglePath(in rect: CGRect) -> UIBezierPath {
         let path = UIBezierPath()
-        path.lineWidth = 0
+        path.lineWidth = DrawingSetups.lineWidth.rawValue
         path.move(to: CGPoint(x: rect.minX, y: rect.maxY))
         path.addLine(to: CGPoint(x: rect.midX, y: rect.minY))
         path.addLine(to: CGPoint(x: rect.maxX, y: rect.maxY))
